@@ -1,0 +1,67 @@
+<div class="container">
+  <div class="mat-row">
+    <mat-label><b>Duration:</b> </mat-label>
+    <mat-chip class="mat-chip-frow" color="primary" selected="true">{{duration}}</mat-chip>
+    <mat-label><b>Services:</b></mat-label>
+    <mat-chip class="mat-chip-frow" color="primary" selected="true">{{services}}</mat-chip>
+    <mat-label><b>Depth:</b></mat-label>
+    <mat-chip class="mat-chip-frow" color="primary" selected="true">{{depth}}</mat-chip>
+    <mat-label><b>Total Spans:</b></mat-label>
+    <mat-chip class="mat-chip-frow" color="primary" selected="true">{{totalSpans}}</mat-chip>
+  </div>
+
+  <div class="mat-row padding">
+    <mat-chip class="padding" *ngFor="let name of serviceNames" color="primary" selected="true"> {{name}} </mat-chip>
+
+  </div>
+
+  <dx-chart
+    id="chart"
+    palette="harmony light"
+    [rotated] ="true"
+    title="Trace: {{traceid}}"
+    [dataSource]="chartElements">
+    <dxo-common-series-settings
+      argumentField="serviceName"
+      valueField="duration"
+      hoverMode= "allArgumentPoints"
+      type="rangeBar">
+    </dxo-common-series-settings>
+    <dxi-value-axis>
+      <dxo-title text="millisecond"></dxo-title>
+    </dxi-value-axis>
+    <dxo-argument-axis>
+
+    </dxo-argument-axis>
+    <dxo-export [enabled]="true"></dxo-export>
+    <dxo-legend
+      [visible]="false"
+      verticalAlignment="bottom"
+      horizontalAlignment="center"></dxo-legend>
+    <dxi-series
+      rangeValue1Field="aVal1"
+      rangeValue2Field="aVal2">
+      <dxo-hover-style [color]="">
+        <dxo-hatching [direction]="" [step]="9" [opacity]="0.9"></dxo-hatching>
+        <dxo-border [visible]="true" [width]="1"></dxo-border>
+        <!-- high priority -->
+      </dxo-hover-style>
+      <dxo-label
+        [customizeText]=""
+        [visible]="true">
+        <dxo-format
+          type="fixedPoint"
+          [precision]="2">
+        </dxo-format>
+      </dxo-label>
+    </dxi-series>
+
+    <dxo-tooltip
+      [enabled]="true">
+    </dxo-tooltip>
+
+  </dx-chart>
+
+
+
+</div>

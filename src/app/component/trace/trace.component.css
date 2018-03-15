@@ -1,0 +1,23 @@
+.container {
+  margin: 6px;
+  padding: 24px;
+  background-color: #ededed;
+  display: flex;
+  flex-direction: column;
+}
+
+.mat-chip-frow {
+  max-width: 200px;
+  border-radius: 30%;
+  padding: 8px;
+}
+
+.padding{
+  margin: 20px;
+  padding: 8px;
+}
+
+mat-label {
+  padding-right: 6px;
+  padding-left: 6px;
+}

@@ -1,0 +1,28 @@
+<div class="container">
+
+  <form [formGroup]="formRoot" (ngSubmit)="submit()">
+
+    <div class="mat-row">
+      <mat-form-field>
+        <input matInput placeholder="Username" formControlName="username">
+      </mat-form-field>
+    </div>
+
+    <div class="mat-row">
+      <mat-form-field>
+        <input matInput placeholder="Password" formControlName="password" type="password">
+      </mat-form-field>
+    </div>
+
+    <div class="mat-row">
+      <div class="cent">
+        <button type="submit" class="btn" mat-raised-button>Login</button>
+      </div>
+    </div>
+
+    <div class="error mat-row">{{errorMessage}}</div>
+
+  </form>
+
+
+</div>

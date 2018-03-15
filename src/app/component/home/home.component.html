@@ -1,0 +1,126 @@
+<div class="container">
+
+  <form [formGroup]="formRoot" (ngSubmit)="submit()">
+    <div class="mat-row">
+      <mat-select class="pad-right" placeholder="Service Name" formControlName="serviceName" (change)="onChangeServiceName($event.value)">
+        <mat-option *ngFor="let name of servNames" [value]="name">
+          {{ name }}
+        </mat-option>
+      </mat-select>
+
+      <mat-select placeholder="Span Name" formControlName="spanName">
+        <mat-option *ngFor="let name of spanNames" [value]="name">
+          {{ name }}
+        </mat-option>
+      </mat-select>
+    </div>
+
+    <div class="mat-row">
+      <mat-form-field class="pad-right">
+        <input matInput [matDatepicker]="startPicker" placeholder="Start Date" formControlName="startDate">
+        <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+        <mat-datepicker #startPicker></mat-datepicker>
+      </mat-form-field>
+
+      <!--<mat-form-field class="pad-right">-->
+        <!--<label>-->
+          <!--<input matInput [owlDateTimeTrigger]="dt4" [owlDateTime]="dt4" placeholder="Time" formControlName="startTime">-->
+          <!--<owl-date-time [pickerType]="'timer'" #dt4></owl-date-time>-->
+        <!--</label>-->
+      <!--</mat-form-field>-->
+
+      <mat-form-field>
+        <input matInput [matDatepicker]="endPicker" placeholder="End Date" formControlName="endDate">
+        <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+        <mat-datepicker #endPicker></mat-datepicker>
+      </mat-form-field>
+
+      <!--<mat-form-field class="pad-right">-->
+        <!--<label>-->
+          <!--<input matInput [owlDateTimeTrigger]="dt5" [owlDateTime]="dt5" placeholder="Time" formControlName="endTime">-->
+          <!--<owl-date-time [pickerType]="'timer'" #dt5></owl-date-time>-->
+        <!--</label>-->
+      <!--</mat-form-field>-->
+    </div>
+
+    <div class="mat-row">
+
+      <mat-form-field class="pad-right">
+        <input matInput placeholder="Duration (μs) >=" formControlName="duration">
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput placeholder="Limit" formControlName="limit">
+      </mat-form-field>
+    </div>
+
+    <div class="mat-row-flexAuto">
+
+      <mat-select class="pad-right" placeholder="Sort" formControlName="sort">
+        <mat-option *ngFor="let name of sortNames" [value]="name">
+          {{ name }}
+        </mat-option>
+      </mat-select>
+
+      <button type="submit" class="btn" mat-raised-button>Find Traces</button>
+
+      <button type="button" mat-button (click)="openDialog()">
+        <mat-icon>help_outline</mat-icon>
+      </button>
+    </div>
+  </form>
+
+  <!--<div class="mat-row">-->
+    <!--<mat-card class="card">-->
+      <!--<mat-card-header>-->
+        <!--<mat-card-title>RESULTS</mat-card-title>-->
+      <!--</mat-card-header>-->
+      <!--<mat-card-content>-->
+        <!--<p>-->
+          <!--Showing: 0 of 0 <br>-->
+          <!--Services:-->
+        <!--</p>-->
+      <!--</mat-card-content>-->
+    <!--</mat-card>-->
+  <!--</div>-->
+
+</div>
+
+<div class="container-result">
+
+
+  <ul id="traces">
+    <li *ngFor="let trace of traceui"[value]="trace" class="trace" >
+
+      <a [routerLink]="['/trace', trace.traceId]">
+        <div class="bar-block">
+          <span class="bar-graphic" style="width:100%;"></span>
+          <span class="bar-label">{{trace.duration}}</span>
+          <span class="bar-label">{{trace.spansNum}} spans</span>
+        </div>
+        <div class="bar-block">
+          <span class="bar-graphic"  [ngStyle]="{'width': trace.percentage+'%'}"></span>
+          <span class="bar-label">{{formRoot.get('serviceName').value}} {{trace.percentage}}%</span>
+        </div>
+      </a>
+      <div class="trace-details services">
+        <span *ngFor="let span of trace.spans" class="label label-default service-filter-label" >
+          <mat-chip class="padding" color="accent" selected="true"> {{span.name}} x{{span.count}} {{span.max}}ms </mat-chip>
+        </span>
+
+      </div>
+      <div class="trace-details timestamp pull-right">
+        <time class="label timeago" >about {{trace.hour}} hours ago</time>
+      </div>
+    </li>
+
+  </ul>
+
+</div>
+
+<!--Scroll to top-->
+<div class="scroll-to-top" [ngClass]="{'show-scroll': navIsFixed}">
+  <button mat-button (click)="scrollToTop()">
+    <mat-icon>keyboard_arrow_up</mat-icon>
+  </button>
+</div>

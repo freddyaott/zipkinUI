@@ -1,0 +1,21 @@
+<mat-dialog-content>
+  <div class="modal-content">
+    <div class="modal-header">
+      <!--<button mat-button type="button" (click)="onCloseConfirm()">x</button>-->
+      <h4 class="modal-title" data-i18n="modal.title">HOW TO FIND A TRACE</h4>
+    </div>
+    <div class="modal-body">
+      <p data-i18n="modal.p1">So you want to find some traces, huh? Youve come to the right place!</p>
+
+      <h4 data-i18n="modal.title2">Service names</h4>
+      <p data-i18n="modal.p2">First off you have select a service to lookup by. All traces are indexed by service names.</p>
+      <p data-i18n="modal.p3">Once that is done you have three options to pick from. See notes on each below.</p>
+
+      <h4 data-i18n="modal.title3">1. Lookups by span name</h4>
+      <p data-i18n="modal.p4">Span names are generally RPC method names or Rails endpoints. This allows you to look up traces that accessed a particular part of the service.</p>
+
+      <h4 data-i18n="modal.title6">Dates and limits</h4>
+      <p data-i18n="modal.p7">Zipkin allows you to pick a point in time to help us guide the selection of traces. When doing a lookup we return traces before that point in time up until the limit number of results.</p>
+    </div>
+  </div>
+</mat-dialog-content>
