@@ -13,11 +13,11 @@ export class AuthGuardGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
 
-
     if (this.zipKinApi.isLoggedIn()) {
       return true;
     } else {
      this.router.navigate(['/login']);
     }
+    return true;
   }
 }

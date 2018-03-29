@@ -11,6 +11,7 @@ export class TraceUI {
    spans: Array<any>;
    hour: string;
    percentage: number;
+   error: boolean;
 
    constructor () {
      this.spans = [];

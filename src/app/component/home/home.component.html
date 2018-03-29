@@ -1,3 +1,4 @@
+
 <div class="container">
 
   <form [formGroup]="formRoot" (ngSubmit)="submit()">
@@ -88,33 +89,33 @@
 
 <div class="container-result">
 
+  <ng-container *ngFor="let trace of traceui">
 
-  <ul id="traces">
-    <li *ngFor="let trace of traceui"[value]="trace" class="trace" >
+    <ul id="traces">
+      <li [value]="trace" class="trace" [ngClass]="trace.error == true ? 'trace-error-critical' : ''">
+        <a [routerLink]="['/trace', trace.traceId]">
+          <div class="bar-block">
+            <span class="bar-graphic" style="width:100%;"></span>
+            <span class="bar-label">{{trace.duration}}</span>
+            <span class="bar-label">{{trace.spansNum}} spans</span>
+          </div>
+          <div class="bar-block">
+            <span class="bar-graphic"  [ngStyle]="{'width': trace.percentage+'%'}"></span>
+            <span class="bar-label">{{formRoot.get('serviceName').value}} {{trace.percentage}}%</span>
+          </div>
+        </a>
+        <div class="trace-details services">
+          <span *ngFor="let span of trace.spans" class="label label-default service-filter-label" >
+            <mat-chip class="padding" color="accent" selected="true"> {{span.name}} x{{span.count}} {{span.max}}ms </mat-chip>
+          </span>
 
-      <a [routerLink]="['/trace', trace.traceId]">
-        <div class="bar-block">
-          <span class="bar-graphic" style="width:100%;"></span>
-          <span class="bar-label">{{trace.duration}}</span>
-          <span class="bar-label">{{trace.spansNum}} spans</span>
         </div>
-        <div class="bar-block">
-          <span class="bar-graphic"  [ngStyle]="{'width': trace.percentage+'%'}"></span>
-          <span class="bar-label">{{formRoot.get('serviceName').value}} {{trace.percentage}}%</span>
+        <div class="trace-details timestamp pull-right">
+          <time class="label timeago" >about {{trace.hour}} hours ago</time>
         </div>
-      </a>
-      <div class="trace-details services">
-        <span *ngFor="let span of trace.spans" class="label label-default service-filter-label" >
-          <mat-chip class="padding" color="accent" selected="true"> {{span.name}} x{{span.count}} {{span.max}}ms </mat-chip>
-        </span>
-
-      </div>
-      <div class="trace-details timestamp pull-right">
-        <time class="label timeago" >about {{trace.hour}} hours ago</time>
-      </div>
-    </li>
-
-  </ul>
+      </li>
+    </ul>
+  </ng-container>
 
 </div>
 

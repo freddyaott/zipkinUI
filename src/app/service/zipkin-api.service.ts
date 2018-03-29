@@ -11,7 +11,8 @@ import {JwtHelper} from 'angular2-jwt';
 @Injectable()
 export class ZipkinApiService {
 
-  private baseUrl = 'http://localhost:9411/api/v1';
+  private baseUrl = 'https://my-moby.com';
+  private versionApi = '/zipkin/api/v1'
   private loginEndpoint = '/oauth/token';
   private serviceEndpoint = '/services';
   private spanEndpoint = '/spans';
@@ -23,7 +24,7 @@ export class ZipkinApiService {
 
   public getServices(): Promise<any> {
 
-    return this.http.get(this.baseUrl + this.serviceEndpoint, { })
+    return this.http.get(this.baseUrl + this.versionApi + this.serviceEndpoint, { })
       .toPromise()
       .then( data => {
           return data;
@@ -37,7 +38,7 @@ export class ZipkinApiService {
 
   public getSpans(serviceName: string): Promise<any> {
 
-    return this.http.get(this.baseUrl + this.spanEndpoint + '?serviceName=' + serviceName, { })
+    return this.http.get(this.baseUrl + this.versionApi + this.spanEndpoint + '?serviceName=' + serviceName, { })
       .toPromise()
       .then( data => {
         return data;
@@ -51,7 +52,7 @@ export class ZipkinApiService {
 
   public getTraces(request: any): Promise<any>{
     let req = JSON.parse(request.toString())
-    let url = this.baseUrl + this.tracesEndpoint +'?';
+    let url = this.baseUrl + this.versionApi + this.tracesEndpoint +'?';
 
     if(req.serviceName && req.serviceName != 'all'){
       url +=  'serviceName=' + req.serviceName
@@ -96,7 +97,7 @@ export class ZipkinApiService {
 
     }
 
-    let url = this.baseUrl + this.traceEndpoint + request;
+    let url = this.baseUrl + this.versionApi + this.traceEndpoint + request;
 
     return this.http.get(
       url, { })
@@ -112,7 +113,7 @@ export class ZipkinApiService {
 
   public login(username: string, password: string) {
     return this.http.post<any>(
-      'http://localhost:8080/oauth/token?grant_type=password&scope=read write&username=' + username + '&password=' + password,
+      this.baseUrl +this.loginEndpoint +'?grant_type=password&scope=read write&username=' + username + '&password=' + password,
       {},
       {headers: { 'Authorization': 'Basic Y2xpZW50YXBwOjEyMzQ1Ng==' }}
     ).toPromise().then(user => {
@@ -139,10 +140,15 @@ export class ZipkinApiService {
   }
 
   isLoggedIn() {
+    if(localStorage.getItem('currentUser') == null){
+      return false;
+    }
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
     let jwtHelper: JwtHelper = new JwtHelper();
+
     if (currentUser && currentUser.access_token) {
       if(jwtHelper.isTokenExpired(currentUser.access_token)){
+        this.logout()
         return false;
       }else{
         return true;

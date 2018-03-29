@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import {CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router} from '@angular/router';
 import { Observable } from 'rxjs/Observable';
+import {ZipkinApiService} from '../service/zipkin-api.service';
 
 @Injectable()
 export class LoginPageGuard implements CanActivate {
 
 
-  constructor(private router: Router) {
+  constructor(private router: Router,  private zipKinApi: ZipkinApiService) {
 
   }
 
@@ -14,10 +15,10 @@ export class LoginPageGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
 
-    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    if (currentUser && currentUser.access_token) {
+    if (this.zipKinApi.isLoggedIn()) {
       this.router.navigate(['/home']);
     } else {
+      console.log('login page ');
       return true;
     }
   }

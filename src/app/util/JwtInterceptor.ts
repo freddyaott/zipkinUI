@@ -23,6 +23,8 @@ export class JwtInterceptor implements HttpInterceptor {
           Authorization: `Bearer ${currentUser.access_token}`
         }
       });
+    } else {
+      this.router.navigate(['/login']);
     }
 
     return next.handle(request);

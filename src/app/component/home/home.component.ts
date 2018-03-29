@@ -22,10 +22,14 @@ export class HomeComponent implements OnInit {
   sortValue: Map<string, string>;
   traces: Array<any>;
   traceui: Array<TraceUI>;
+  searchTrace = null;
 
   constructor(public zipkinApi: ZipkinApiService, public dialog: MatDialog) { }
 
   ngOnInit() {
+
+    this.searchTrace = null;
+
     this.formRoot = new FormGroup({
       serviceName: new FormControl(),
       spanName: new FormControl(),
@@ -37,6 +41,7 @@ export class HomeComponent implements OnInit {
       limit: new FormControl(),
       sort: new FormControl()
     });
+
 
     this.formRoot.get('serviceName').patchValue('all');
     this.formRoot.get('startDate').patchValue(new Date());
@@ -69,6 +74,7 @@ export class HomeComponent implements OnInit {
     });
   }
 
+
   public submit() {
     let reealReq = new RequestTrace();
 
@@ -95,6 +101,7 @@ export class HomeComponent implements OnInit {
     console.log(tracce);
 
     tracce.forEach(value => {
+      console.log(value);
       let traceui: TraceUI = new TraceUI();
       traceui.traceId = value.traceId;
       traceui.spansNum = value.totalSpans;
@@ -103,6 +110,12 @@ export class HomeComponent implements OnInit {
       traceui.percentage = value.servicePercentage;
       traceui.spans = value.serviceDurations;
       traceui.hour = (((((now - traceui.timestamp) / 1000) / 60) / 60) / 1000).toFixed(0);
+      if (value.infoClass && value.infoClass !== '') {
+        traceui.error = true;
+      } else {
+        traceui.error = false;
+
+      }
 
       this.traceui.push(traceui);
     });

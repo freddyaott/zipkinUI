@@ -68,7 +68,7 @@ import { HelpDialogComponent } from './component/help-dialog/help-dialog.compone
       { path: 'home', component: HomeComponent, canActivate: [AuthGuardGuard]},
       { path: 'trace/:id', component: TraceComponent, canActivate: [AuthGuardGuard]},
       { path: '', redirectTo: 'home', pathMatch: 'full'}
-    ], { useHash : false })
+    ], { useHash : true })
   ],
   providers: [HttpClient,
     ZipkinApiService,

@@ -1,3 +1,13 @@
+.toolbar{
+  width: 100%;
+}
+
+.searchbar{
+  flex-direction: row;
+  display: flex;
+  flex: 1 1 auto;
+}
+
 .container {
   margin: 6px;
   padding: 24px;
@@ -71,6 +81,8 @@
 .myCustomClass md-input-container .md-errors-spacer{
   min-height: 0px !important;
 }
+
+
 
 #traces {
   list-style: none;

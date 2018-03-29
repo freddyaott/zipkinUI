@@ -11,6 +11,7 @@ import {Router} from '@angular/router';
 export class AppComponent {
   title = 'app';
   show = true;
+  searchTrace = null;
 
   constructor (public zipkinService: ZipkinApiService, public router: Router) {
 
@@ -27,6 +28,33 @@ export class AppComponent {
 
   loggin() {
     this.router.navigate(['/login']);
+  }
+
+
+  public submitSearch() {
+
+    this.router.navigate(['/trace', this.searchTrace]);
+
+  }
+
+  public endSearch() {
+    this.searchTrace = null;
+  }
+
+  public initiateSearch() {
+    this.searchTrace = '';
+  }
+
+  public showPreSearchBar() {
+    return this.searchTrace == null;
+  }
+
+  public showSearchBar(): boolean {
+    return this.searchTrace != null;
+  }
+
+  home() {
+    this.router.navigate(['/home']);
   }
 
 }
